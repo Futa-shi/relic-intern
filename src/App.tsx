@@ -7,7 +7,7 @@ import { ResultPage } from '@/pages/ResultPage'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, "")}>
       <main className="mx-auto min-h-screen max-w-md px-4 pb-10 pt-4">
         <Routes>
           <Route path="/" element={<HomePage />} />

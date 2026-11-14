@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Speak up AI｜TikTok 15秒</title>
+<style>
+  :root { --purple: #6d4aed; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #111; color: #fff;
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "IPAPGothic", sans-serif; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 12px; }
+
+  /* 1080×1920 の舞台を画面に合わせて縮小表示 */
+  #viewport { position: relative; overflow: hidden; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,.6); }
+  #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; overflow: hidden; background: #000; }
+
+  .scene { position: absolute; inset: 0; visibility: hidden; overflow: hidden; will-change: transform; }
+  .scene.on { visibility: visible; }
+  .bg-blur { position: absolute; inset: -80px; width: calc(100% + 160px); height: calc(100% + 160px); object-fit: cover; filter: blur(40px) brightness(.55); }
+  .bg-solid { position: absolute; inset: 0; background: linear-gradient(170deg, #4c2fd6 0%, #8b5cf6 55%, #d946ef 100%); }
+  .crop { position: absolute; overflow: hidden; }
+  .crop img { position: absolute; display: block; }
+
+  /* テロップ：上3分の1・左寄せ領域（右140pxはTikTokのボタン用に空ける） */
+  .telop { position: absolute; left: 64px; right: 150px; top: 230px; height: 420px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .telop p { font-weight: 900; font-size: 96px; line-height: 1.22; letter-spacing: .02em; color: #fff;
+    -webkit-text-stroke: 18px #111; paint-order: stroke fill; white-space: nowrap; }
+  .telop p .hl { color: #ffe14d; }
+  .telop.cta p { font-size: 104px; }
+
+  /* アプリのスクショを入れるスマホ枠 */
+  .phone { position: absolute; border-radius: 64px; background: #0b0b0f; padding: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  .phone img { display: block; width: 100%; border-radius: 48px; }
+  .badge { position: absolute; font-weight: 900; color: #fff; background: var(--purple); border: 6px solid #fff;
+    border-radius: 999px; padding: 14px 34px; font-size: 52px; box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+
+  #controls { display: flex; align-items: center; gap: 10px; width: min(100%, 520px); }
+  #controls button { flex: none; height: 44px; padding: 0 16px; border: 0; border-radius: 10px; font-size: 15px; font-weight: 700;
+    color: #fff; background: #2a2a33; cursor: pointer; font-family: inherit; }
+  #controls button:hover { background: #3a3a46; }
+  #controls button.primary { background: var(--purple); }
+  #bar { position: relative; flex: 1; height: 8px; border-radius: 99px; background: #333; cursor: pointer; }
+  #bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; background: var(--purple); }
+  #time { flex: none; font-variant-numeric: tabular-nums; font-size: 13px; color: #aaa; width: 78px; text-align: right; }
+  body.export #controls { display: none; }
+  body.export { padding: 0; }
+  body.export #viewport { border-radius: 0; box-shadow: none; }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+  <!-- S1 0.0–3.0 課題：外国人に話しかけられ、言葉が出ない -->
+  <section class="scene" data-start="0" data-end="3" data-enter="cut">
+    <img class="bg-blur" src="assets/trouble.jpg" alt="" />
+    <div class="crop" data-src="assets/trouble.jpg" data-crop="0,120,768,1256" data-dest="0,560,1080"></div>
+    <div class="telop"><p>言いたいのに</p><p><span class="hl">英語が出ない</span></p></div>
+  </section>
+
+  <!-- S2 3.0–6.0 共感：笑ってごまかす／翻訳アプリ頼み（顔と通信エラーのスマホに寄る） -->
+  <section class="scene" data-start="3" data-end="6" data-enter="cut">
+    <img class="bg-blur" src="assets/trouble.jpg" alt="" />
+    <div class="crop" data-src="assets/trouble.jpg" data-crop="120,300,520,640" data-dest="0,620,1080" data-zoom="1.06"></div>
+    <div class="telop"><p>笑ってごまかす。</p><p><span class="hl">翻訳アプリ頼み。</span></p></div>
+  </section>
+
+  <!-- S3 6.0–9.0 理想：詰まっても自分の英語で話せている（別アプリの画面が写った部分は切り取る） -->
+  <section class="scene" data-start="6" data-end="9" data-enter="slide">
+    <img class="bg-blur" src="assets/cafe.jpg" alt="" />
+    <div class="crop" data-src="assets/cafe.jpg" data-crop="230,225,538,450" data-dest="-140,640,1360" data-zoom="1.05"></div>
+    <div class="telop"><p>詰まっても</p><p><span class="hl">自分の英語で話す</span></p></div>
+  </section>
+
+  <!-- S4 9.0–10.5 解決策①：黙ると5秒でヒント -->
+  <section class="scene" data-start="9" data-end="10.5" data-enter="slide">
+    <div class="bg-solid"></div>
+    <div class="phone" style="left:230px; top:660px; width:560px;"><img src="assets/app-help.png" alt="会話画面" /></div>
+    <div class="badge" style="left:90px; top:1180px;">5秒でヒント</div>
+    <div class="telop"><p>黙っても<span class="hl">5秒で</span></p><p><span class="hl">ヒント</span>が出る</p></div>
+  </section>
+
+  <!-- S5 10.5–12.0 解決策②：話すほどアバターが育つ -->
+  <section class="scene" data-start="10.5" data-end="12" data-enter="cut">
+    <div class="bg-solid"></div>
+    <div class="phone" style="left:230px; top:660px; width:560px;"><img src="assets/app-feedback.png" alt="フィードバック画面" /></div>
+    <div class="badge" style="left:90px; top:1180px;">+XP</div>
+    <div class="telop"><p>話した分だけ</p><p><span class="hl">アバターが育つ</span></p></div>
+  </section>
+
+  <!-- S6 12.0–15.0 行動の呼びかけ -->
+  <section class="scene" data-start="12" data-end="15" data-enter="slide">
+    <div class="bg-solid"></div>
+    <div class="phone" style="left:200px; top:640px; width:620px;"><img src="assets/app-home.png" alt="ホーム画面" /></div>
+    <div class="telop cta"><p>プロフのリンクから</p><p><span class="hl">無料で試せる</span></p></div>
+  </section>
+
+</div></div>
+
+<div id="controls">
+  <button id="play" class="primary">▶ 再生</button>
+  <button id="pause">❚❚ 一時停止</button>
+  <button id="restart">⟲ 最初から</button>
+  <div id="bar"><i></i></div>
+  <div id="time">0.0 / 15.0</div>
+</div>
+
+<script>
+  const DURATION = 15
+  const SLIDE = 0.3 // 短いスライド（秒）
+  const IMG_W = 768, IMG_H = 1376
+  const stage = document.getElementById('stage')
+  const viewport = document.getElementById('viewport')
+  const scenes = [...document.querySelectorAll('.scene')]
+  const isExport = new URLSearchParams(location.search).has('export')
+  if (isExport) document.body.classList.add('export')
+
+  // 素材画像の一部（crop: x,y,w,h）を、舞台の (x,y) に幅wで配置する
+  document.querySelectorAll('.crop').forEach((el) => {
+    const [sx, sy, sw, sh] = el.dataset.crop.split(',').map(Number)
+    const [dx, dy, dw] = el.dataset.dest.split(',').map(Number)
+    const s = dw / sw
+    Object.assign(el.style, { left: dx + 'px', top: dy + 'px', width: dw + 'px', height: sh * s + 'px' })
+    const img = new Image()
+    img.src = el.dataset.src
+    Object.assign(img.style, { width: IMG_W * s + 'px', height: IMG_H * s + 'px', left: -sx * s + 'px', top: -sy * s + 'px', transformOrigin: `${(sx + sw / 2) * s}px ${(sy + sh / 2) * s}px` })
+    el.appendChild(img)
+    el._img = img
+  })
+
+  function fit() {
+    const maxW = isExport ? window.innerWidth : Math.min(window.innerWidth - 24, 540)
+    const maxH = isExport ? window.innerHeight : window.innerHeight - 90
+    const scale = Math.min(maxW / 1080, maxH / 1920)
+    stage.style.transform = `scale(${scale})`
+    viewport.style.width = 1080 * scale + 'px'
+    viewport.style.height = 1920 * scale + 'px'
+  }
+  window.addEventListener('resize', fit)
+  fit()
+
+  // 時刻 t の見た目を決める（再生も書き出しもこれ1つ）
+  function render(t) {
+    scenes.forEach((sc) => {
+      const start = +sc.dataset.start, end = +sc.dataset.end
+      const on = t >= start && (t < end || (end === DURATION && t >= end))
+      sc.classList.toggle('on', on)
+      if (!on) return
+      const local = t - start
+      let x = 0
+      if (sc.dataset.enter === 'slide' && local < SLIDE) {
+        const p = local / SLIDE
+        x = (1 - (1 - (1 - p) ** 3)) * 1080 // ease-out
+      }
+      sc.style.transform = `translateX(${x}px)`
+      // ゆっくり寄る（控えめ）
+      sc.querySelectorAll('.crop').forEach((c) => {
+        const z = +(c.dataset.zoom || 1)
+        const p = Math.min(1, local / (end - start))
+        c._img.style.transform = `scale(${1 + (z - 1) * p})`
+      })
+    })
+    document.querySelector('#bar i').style.width = (t / DURATION) * 100 + '%'
+    document.getElementById('time').textContent = `${t.toFixed(1)} / ${DURATION.toFixed(1)}`
+  }
+
+  let t = 0, playing = false, last = 0
+  function tick(now) {
+    if (!playing) return
+    t = Math.min(DURATION, t + (now - last) / 1000)
+    last = now
+    render(t)
+    if (t >= DURATION) { playing = false; return }
+    requestAnimationFrame(tick)
+  }
+  function play() {
+    if (playing) return
+    if (t >= DURATION) t = 0
+    playing = true
+    last = performance.now()
+    requestAnimationFrame(tick)
+  }
+  function pause() { playing = false }
+  function restart() { t = 0; render(0); playing = false; play() }
+
+  document.getElementById('play').onclick = play
+  document.getElementById('pause').onclick = pause
+  document.getElementById('restart').onclick = restart
+  document.getElementById('bar').onclick = (e) => {
+    const r = e.currentTarget.getBoundingClientRect()
+    t = Math.max(0, Math.min(DURATION, ((e.clientX - r.left) / r.width) * DURATION))
+    render(t)
+  }
+  document.addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); playing ? pause() : play() } })
+
+  // 書き出し用
+  window.seek = (sec) => { playing = false; t = sec; render(sec) }
+  render(0)
+</script>
+</body>
+</html>
